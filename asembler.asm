@@ -21,14 +21,17 @@ ExitProcess PROTO :DWORD
 	manji0 DWORD 5 dup(?)
 	brojveci dd 0
 	brojmanji dd 0
-	msg1 db "Veci: ", 10, 0
-	msg2 db "Manji: ", 10, 0
+	msg1 db "Veci: ", 0
+	msg2 db "Manji: ", 0
+	msg3 db "Upisite pet brojeva: ", 10, 0
+	msg4 db "Svi brojevi: ", 0
 
 .code
 main PROC
 	
 	mov esi, OFFSET brojevi
 	mov ebx, 5
+	INVOKE printf, ADDR msg3
 
 	unos:
 		INVOKE scanf, ADDR inputFmt, esi
@@ -40,8 +43,12 @@ main PROC
 	
 	mov esi, OFFSET brojevi
 	mov ebx, 5
+	INVOKE printf, ADDR pr
+	INVOKE printf, ADDR msg4
 
 	petlja:
+		mov eax, [esi]
+		INVOKE printf, ADDR outputFmt, eax
 		mov eax, [esi]
 		cmp eax, 0
 		jg veci
@@ -65,6 +72,8 @@ main PROC
 			dec ebx
 			cmp ebx, 0
 			jg petlja
+
+	INVOKE printf, ADDR pr
 		
 	
 	INVOKE printf, ADDR msg1
